@@ -6,11 +6,6 @@ import numpy as np
 
 app = Flask(__name__)
 
-from flask import Flask, request, jsonify
-from werkzeug.utils import secure_filename
-
-app = Flask(__name__, template_folder='./templates')
-
 UPLOAD_FOLDER = './upload'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -54,7 +49,7 @@ def get_images():
     urls = []
     for i in range(1, 4):
         filename = f'result_upload{i}.jpg'
-        url = f'{public_url}/static/{filename}'
+        url = f'/static/{filename}'
         urls.append(url)
     return jsonify({'urls': urls})
 
@@ -98,17 +93,12 @@ def detect_landmark(filepath):
                     connection_drawing_spec=mp_drawing.DrawingSpec(color=(0, 0, 255), thickness=1, circle_radius=0))
 
         # imagen = imageb - image
-        # imagen = cv2.subtract(image, imageb)
-        cv2.imwrite('./static/result_upload2.jpg', image2)
-        subtracted_img = np.zeros(image1.shape, np.uint8)
-
-        # Lakukan perhitungan pengurangan pixel secara manual
-        for i in range(image1.shape[0]):
-            for j in range(image1.shape[1]):
-                subtracted_img[i, j] = abs(int(image1[i, j][0]) - int(image2[i, j][0]))
-
-        cv2.imwrite('./static/result_upload3.jpg', subtracted_img)
+        # imagen = cv2.subtract(image, image2)
+        
+        # Write the resulting images to the upload folder
+        cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], 'result_upload1.jpg'), image2)
+        cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], 'result_upload2.jpg'), image2)
+        cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], 'result_upload3.jpg'), subtracted_img)
 
 if __name__ == '__main__':
-    # Menjalankan aplikasi Flask
-    app.run(port=5000)
+    app.run()
