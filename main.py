@@ -99,6 +99,7 @@ def detect_landmark(filepath):
         cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], 'result_upload1.jpg'), image2)
         cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], 'result_upload2.jpg'), image2)
         cv2.imwrite(os.path.join(app.config['UPLOAD_FOLDER'], 'result_upload3.jpg'), subtracted_img)
-
+        
+        
 if __name__ == '__main__':
     app.run()
