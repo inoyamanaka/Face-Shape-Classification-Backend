@@ -3,7 +3,6 @@ import os
 import cv2
 import mediapipe as mp
 import numpy as np
-from pyngrok import ngrok
 
 app = Flask(__name__)
 
@@ -111,9 +110,5 @@ def detect_landmark(filepath):
         cv2.imwrite('./static/result_upload3.jpg', subtracted_img)
 
 if __name__ == '__main__':
-    # app.run(port=8000, host='192.168.1.113')
-    public_url = ngrok.connect(5000).public_url
-    print(f' * Running on {public_url}')
-
     # Menjalankan aplikasi Flask
     app.run(port=5000)
